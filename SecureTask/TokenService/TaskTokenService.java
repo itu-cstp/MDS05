@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
 
+import javax.naming.AuthenticationException;
+
 import com.jcraft.jsch.*;
 
 public class TaskTokenService {
@@ -32,15 +34,15 @@ public class TaskTokenService {
 		roleMappings.put("mrof", "student");
 		roleMappings.put("cstp", "student");
 	}
-
 	/**
 	 * @param args
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException 
 	{		
+	
 		boolean running = true;
-		System.out.println("Please enter your ITU username and password: ");
+		System.out.println("Please enter your ITU username and password separated by one space: ");
 		while(running){
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -56,27 +58,33 @@ public class TaskTokenService {
 
 	}
 
-	public static String getToken(String user, String pword){
-
+	public static String getToken(String user, String pword) 
+	{
 		String result = "";
 		if(authenticate(user, pword))
 		{			
 			// return an encrypted server token containing the 
 			// role corresponding to the clients username and 
 			// a timestamp indicating the validity of the token.
-			if(!roleMappings.containsValue(user)) 
+			if(roleMappings.get(user) != null) 
 			{
-				result = "User not mapped to a role.";
+				result = "You have not been assigned a role. Please write yourself into the hashtable in TaskTokenService's constructor.";
 			}
 			else {
 				String role = roleMappings.get(user);
 				long timestamp = System.currentTimeMillis();
 				
-				result = "Role: " + role + " time " + timestamp;
+				String token = "Role: " + role + " time " + timestamp;
+				try {
+					result = EncryptionService.encrypt(token);
+				} catch (Exception e) {
+					result = "There was a problem with the encryption.";
+					e.printStackTrace();
+				}
 			}
 		}
 		else {
-			result = "You were not authenticated. The Password was incorrect. Prepare to be exterminated. Have a nice day.";
+			result = "You were not authenticated. The username or password was incorrect.";
 		}
 		return result;
 	}
