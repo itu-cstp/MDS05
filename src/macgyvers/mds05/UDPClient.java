@@ -5,7 +5,9 @@ import java.net.*;
 import java.util.*;
 
 public class UDPClient 
-{    
+{
+    private static final byte[] keyValue = new byte[] { 'T', 'h', 'e', 'M', 'a', 'c', 'G', 'y', 'v', 'e', 'r','C', 'l', 'i', 'e', 'n' };
+
 	public static void main(String[] args)
 	{
 		boolean running = true;
@@ -27,7 +29,7 @@ public class UDPClient
 				}
 
 				String credentials = inputs[0]+" "+inputs[1];
-				String encryptedCredentials = EncryptionService.encrypt(credentials);
+				String encryptedCredentials = EncryptionService.encrypt(credentials,keyValue);
 				TokenService tokenService = TokenService.getInstance();
 				String token = tokenService.getToken(encryptedCredentials);
 				
@@ -36,7 +38,7 @@ public class UDPClient
 					// Part 2: send request to server
 
 					// decrypt token
-					String tokenString = EncryptionService.decrypt(token);
+					String tokenString = EncryptionService.decrypt(token,keyValue);
 					
 					// get task
 					System.out.println("Please enter the id of the task you wish to execute: ");

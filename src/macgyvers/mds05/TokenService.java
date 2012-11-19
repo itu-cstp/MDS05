@@ -1,6 +1,6 @@
 package macgyvers.mds05;
 /**
- * It authenticates clients’s credentials (ITU username and password)  
+ * It authenticates clientsï¿½s credentials (ITU username and password)  
  * by contacting and log into one of the ITU service  such as LDAP 
  * directory service or Secure Shell (ssh). 
  * Furthermore, the token service maintains authorization of tasks 
@@ -28,7 +28,10 @@ public class TokenService {
 
 	static HashMap<String, String> roleMappings = new HashMap<String, String>();
 
-	static TokenService instance;
+    private static final byte[] clientKey = new byte[] { 'T', 'h', 'e', 'M', 'a', 'c', 'G', 'y', 'v', 'e', 'r','C', 'l', 'i', 'e', 'n' };
+    private static final byte[] serverKey = new byte[] { 'T', 'h', 'e', 'M', 'a', 'c', 'G', 'y', 'v', 'e', 'r','S', 'e', 'r', 'v', 'e' };
+
+    static TokenService instance;
 	
 	public static TokenService getInstance(){
 		
@@ -48,7 +51,7 @@ public class TokenService {
 	public static String getToken(String encryptedCredentials) throws Exception 
 	{
 		// decrypt with K-CT
-		String credentials = EncryptionService.decrypt(encryptedCredentials);
+		String credentials = EncryptionService.decrypt(encryptedCredentials,clientKey);
 		String[] inputs = credentials.split(" ");
 		String user = inputs[0];
 		String pword = inputs[1];
@@ -70,9 +73,9 @@ public class TokenService {
 				String token = role+" "+timestamp;
 				try {
 					// encrypt with K-TS
-					String encryptedToken = EncryptionService.encrypt(token);
+					String encryptedToken = EncryptionService.encrypt(token,serverKey);
 					// encrypt with K-CT
-					result = EncryptionService.encrypt(encryptedToken);
+					result = EncryptionService.encrypt(encryptedToken,clientKey);
 				} catch (Exception e) {
 					System.out.println("There was a problem with the encryption. Please try again.");
 					e.printStackTrace();
@@ -86,7 +89,7 @@ public class TokenService {
 	}
 	
 	private static boolean authenticate(String user, String pword)
-	{/*
+	{
 		try {
 			JSch j = new JSch();
 			String host = "ssh.itu.dk";			
@@ -97,7 +100,7 @@ public class TokenService {
 		}
 		catch(JSchException je){
 			return false;
-		}*/
+		}
 		return true;
 	}
 

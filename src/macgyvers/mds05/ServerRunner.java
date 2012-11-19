@@ -9,7 +9,6 @@ public class ServerRunner {
     	//this starts the thread that executes jobs that are in the queue.
     	TaskHandler.getInstance().startExecuteService();
     	System.out.println("Execute service started");
-        
     }
 }
 

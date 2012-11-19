@@ -19,6 +19,8 @@ public class UDPServer extends Thread {
 	protected boolean looping = true;
 	private TaskHandler handler = TaskHandler.getInstance();
 
+    private static final byte[] keyValue = new byte[] { 'T', 'h', 'e', 'M', 'a', 'c', 'G', 'y', 'v', 'e', 'r','S', 'e', 'r', 'v', 'e' };
+
 	//constructor calls the constructor in the ancestor class. 
 	public UDPServer() throws IOException {
 		this("ServerThread");
@@ -52,7 +54,7 @@ public class UDPServer extends Thread {
 				else {
 					// decrypt the token & split into component parts
 					String token = inputs[0];
-					String tokenString = EncryptionService.decrypt(token);
+					String tokenString = EncryptionService.decrypt(token,keyValue);
 					String[] splitToken = tokenString.split(" ");
 					String role = splitToken[0];
 					long timestamp = Long.valueOf(splitToken[1]).longValue();

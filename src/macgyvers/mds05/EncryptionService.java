@@ -14,12 +14,10 @@ import javax.xml.bind.DatatypeConverter;
 public class EncryptionService {
 
 	private static final String ALGO = "AES";
-	private static final byte[] keyValue = 
-			new byte[] { 'T', 'h', 'e', 'M', 'a', 'c', 'G', 'y', 'v', 'e', 'r','s', 'T', 'e', 'a', 'm' };
 
-	public static String encrypt(String Data) throws Exception 
+	public static String encrypt(String Data,byte[] keyValue) throws Exception
 	{
-		Key key = generateKey();
+		Key key = generateKey(keyValue);
 		Cipher c = Cipher.getInstance(ALGO);
 		c.init(Cipher.ENCRYPT_MODE, key);
 		byte[] encVal = c.doFinal(Data.getBytes());
@@ -27,9 +25,9 @@ public class EncryptionService {
 		return encryptedValue;
 	}
 
-	public static String decrypt(String encryptedData) throws Exception 
+	public static String decrypt(String encryptedData,byte[] keyValue) throws Exception
 	{
-		Key key = generateKey();
+		Key key = generateKey(keyValue);
 		Cipher c = Cipher.getInstance(ALGO);
 		c.init(Cipher.DECRYPT_MODE, key);
 		byte[] decordedValue = DatatypeConverter.parseBase64Binary(encryptedData);
@@ -40,7 +38,7 @@ public class EncryptionService {
 
 	}
 
-	private static Key generateKey() throws Exception {
+	public static Key generateKey(byte[] keyValue) throws Exception {
 		Key key = new SecretKeySpec(keyValue, ALGO);
 		return key;
 	}
