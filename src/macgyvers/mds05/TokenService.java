@@ -40,8 +40,8 @@ public class TokenService {
 	private TokenService()
 	{
 		roleMappings.put("eeng", "student");
-		roleMappings.put("lynd", "student");
-		roleMappings.put("mrof", "student");
+		roleMappings.put("lynd", "ta");
+		roleMappings.put("mrof", "teacher");
 		roleMappings.put("cstp", "student");
 	}
 	

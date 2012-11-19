@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cal><tasks><task id="qualify-for-exam" name="qualify for written exam" date="10-12-2012" status="not-executed" required="false"><attendants/><description>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cal><tasks><task id="qualify-for-exam" name="qualify for written exam" date="10-12-2012" status="executed" required="false"><attendants/><description>
                 Qualify students to take up written exam.
-            </description><conditions>approve-01, handin-01</conditions><responses></responses><role>teacher</role></task><task id="review-01" name="Review and check assignment" date="19-09-2012" status="not-executed" required="false"><attendants/><description>
+            </description><conditions>approve-01, handin-01</conditions><responses></responses><role>teacher</role></task><task id="review-01" name="Review and check assignment" date="19-09-2012" status="executed" required="false"><attendants/><description>
                 Check the assignment send by students and decide whether to approve or 
                 ask them to re-submit the assignment. 
             </description><conditions>handin-01</conditions><responses></responses><role>ta</role></task><task id="handin-01" name="Submit assignment-01" date="17-09-2012" status="executed" required="false"><attendants/><description>
                 Work on mandatory assignment and send hand-in to Rao.
             </description><conditions></conditions><responses>review-01</responses><role>student</role></task><task id="reject-01" name="ask to resubmit the assignment" date="24-09-2012" status="not-executed" required="false"><attendants/><description>
                 Ask students to resubmit assignment by providing necessary feedback.
-            </description><conditions>review-01</conditions><responses>handin-01</responses><role>ta, teacher</role></task><task id="approve-01" name="mandatory assignment 01 approved" date="24-09-2012" status="not-executed" required="false"><attendants/><description>
+            </description><conditions>review-01</conditions><responses>handin-01</responses><role>ta, teacher</role></task><task id="approve-01" name="mandatory assignment 01 approved" date="24-09-2012" status="executed" required="false"><attendants/><description>
                 Approve mandatory assignment 01 and inform students.
             </description><conditions>review-01, handin-01</conditions><responses></responses><role>ta, teacher</role></task></tasks><users/></cal>
