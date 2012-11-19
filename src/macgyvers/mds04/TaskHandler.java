@@ -55,7 +55,12 @@ public class TaskHandler {
 	}
 	
 	public boolean roleMatches(String taskId, String role){
-		Task task = taskList.get(taskId);
+		Task task = taskList.get(taskId);		
+		ArrayList<String> roles = task.roles; //roles is null
+		for(String r : roles)
+		{
+			System.out.println(r);
+		}
 		if (task.roles.contains(role)) return true;
 		else return false;
 	}

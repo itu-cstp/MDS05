@@ -28,7 +28,16 @@ public class TokenService {
 
 	static HashMap<String, String> roleMappings = new HashMap<String, String>();
 
-	public TokenService()
+	static TokenService instance;
+	
+	public static TokenService getInstance(){
+		
+		if (instance == null) instance = new TokenService();
+		
+		return instance;
+	}
+	
+	private TokenService()
 	{
 		roleMappings.put("eeng", "student");
 		roleMappings.put("lynd", "student");
@@ -50,7 +59,7 @@ public class TokenService {
 			// return an encrypted server token containing the 
 			// role corresponding to the clients username and 
 			// a timestamp indicating the validity of the token.
-			if(roleMappings.get(user) != null) 
+			if(roleMappings.get(user) == null) 
 			{
 				System.out.println("You have not been assigned a role. Please write yourself into the hashtable in TaskTokenService's constructor.");
 			}
@@ -75,9 +84,9 @@ public class TokenService {
 		}
 		return result;
 	}
-
+	
 	private static boolean authenticate(String user, String pword)
-	{
+	{/*
 		try {
 			JSch j = new JSch();
 			String host = "ssh.itu.dk";			
@@ -88,7 +97,7 @@ public class TokenService {
 		}
 		catch(JSchException je){
 			return false;
-		}
+		}*/
 		return true;
 	}
 

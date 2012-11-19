@@ -28,7 +28,8 @@ public class UDPClient
 
 				String credentials = inputs[0]+" "+inputs[1];
 				String encryptedCredentials = EncryptionService.encrypt(credentials);
-				String token = TokenService.getToken(encryptedCredentials);
+				TokenService tokenService = TokenService.getInstance();
+				String token = tokenService.getToken(encryptedCredentials);
 				
 				if(!token.isEmpty()) {
 
