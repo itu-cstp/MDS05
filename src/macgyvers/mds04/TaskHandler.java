@@ -53,6 +53,12 @@ public class TaskHandler {
 	public void submitTask(String taskid){
 		notExecuted.offer(taskid);
 	}
+	
+	public boolean roleMatches(String taskId, String role){
+		Task task = taskList.get(taskId);
+		if (task.roles.contains(role)) return true;
+		else return false;
+	}
 	/**
 	 * singleton method
 	 * @return

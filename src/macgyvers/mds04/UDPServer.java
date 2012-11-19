@@ -45,8 +45,7 @@ public class UDPServer extends Thread {
 				String input = new String(packet.getData(), 0, packet.getLength());
 				// splitting the input string to isolate commands
 				String[] inputs = input.split(" ");
-				for(String ino : inputs)
-					System.out.println(ino);
+
 				//if all information is not entered from the client
 				if(inputs.length < 2)
 					returnMessage = "Usage: token task-id";
@@ -57,21 +56,26 @@ public class UDPServer extends Thread {
 					String[] splitToken = tokenString.split(" ");
 					String role = splitToken[0];
 					long timestamp = Long.valueOf(splitToken[1]).longValue();
-												
+
 					// validate the timestamp
 					long currentTime = System.currentTimeMillis();
-					
-							
-					// get the task
-					String taskId = inputs[1]; 
-					
-					// check that role matches associated task
-					
-					// submit task
-					handler.submitTask(taskId);
+					// if more than 15 minutes have passed since the token was created
+					if (currentTime-timestamp > 900000) returnMessage = "Sorry, your login session has expired, please log in again.";
+					else {		
+						// get the task
+						String taskId = inputs[1]; 
 
-					//if there are no errors so far (returnMessage not altered)
-					if(returnMessage == "") returnMessage = "Task received, Id: "+taskId;
+						// check that role matches associated task
+						if(!handler.roleMatches(taskId, role)) returnMessage = "Sorry, you do not have permission to execute that task. Please contact your role administrator.";
+
+						//if there are no errors so far (returnMessage not altered)
+						if(returnMessage == "") 
+						{
+							// submit task
+							handler.submitTask(taskId);
+							returnMessage = "Task received, Id: "+taskId;
+						}
+					}
 				}
 				buf = returnMessage.getBytes();
 

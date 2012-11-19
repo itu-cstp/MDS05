@@ -35,32 +35,15 @@ public class TokenService {
 		roleMappings.put("mrof", "student");
 		roleMappings.put("cstp", "student");
 	}
-	/**
-	 * @param args
-	 * @throws IOException 
-	 */
-	public static void main(String[] args) throws IOException 
-	{		
 	
-		boolean running = true;
-		System.out.println("Please enter your ITU username and password separated by one space: ");
-		while(running){
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-			String line = br.readLine();
-			String[] inputs = line.split(" ");
-
-			String user = inputs[0];
-			String pword = inputs[1];
-
-			System.out.println(getToken(user, pword));
-			running = false;
-		}
-
-	}
-
-	public static String getToken(String user, String pword) 
+	public static String getToken(String encryptedCredentials) throws Exception 
 	{
+		// decrypt with K-CT
+		String credentials = EncryptionService.decrypt(encryptedCredentials);
+		String[] inputs = credentials.split(" ");
+		String user = inputs[0];
+		String pword = inputs[1];
+		
 		String result = "";
 		if(authenticate(user, pword))
 		{			
@@ -77,7 +60,10 @@ public class TokenService {
 				
 				String token = role+" "+timestamp;
 				try {
-					result = EncryptionService.encrypt(token);
+					// encrypt with K-TS
+					String encryptedToken = EncryptionService.encrypt(token);
+					// encrypt with K-CT
+					result = EncryptionService.encrypt(encryptedToken);
 				} catch (Exception e) {
 					System.out.println("There was a problem with the encryption. Please try again.");
 					e.printStackTrace();

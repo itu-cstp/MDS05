@@ -45,15 +45,23 @@ public class Task implements Serializable {
 	
 	@XmlElement(name = "responses")
 	public ArrayList<String> responses;	
+	
+	@XmlElement(name = "roles")
+	public ArrayList<String> roles;	
 
     public Task(){}
     //this constructor is for creating new entries
     public Task(String id, String name, String date, String status){
-        this.attendants = new ArrayList<String>();
+        
         this.id = id;
         this.name = name;
         this.date = date;
         this.status = status;
+        
+        this.attendants = new ArrayList<String>();
+        this.conditions = new ArrayList<String>();
+        this.responses = new ArrayList<String>();
+        this.roles = new ArrayList<String>();
     }
     //overload this constructor is for changing state of existing entries
     public Task(String id, Date date, String idNumber){

@@ -26,9 +26,11 @@ public class UDPClient
 					/// return;
 				}
 
-				String token = TokenService.getToken(inputs[0], inputs[1]);
-				if(token.isEmpty()) System.out.println("Something went wrong that we hadn't anticipated.");
-				else {
+				String credentials = inputs[0]+" "+inputs[1];
+				String encryptedCredentials = EncryptionService.encrypt(credentials);
+				String token = TokenService.getToken(encryptedCredentials);
+				
+				if(!token.isEmpty()) {
 
 					// Part 2: send request to server
 
